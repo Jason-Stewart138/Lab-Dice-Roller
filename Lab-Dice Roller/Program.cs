@@ -11,7 +11,6 @@ while (playAgain)
     Console.WriteLine("Welcome To Bender's Definitely Not Rigged");
     Console.WriteLine("Dice Roller Game!");
     Console.WriteLine();
-    //Console.ReadKey();
     Console.WriteLine("Ok Meatbag Let's Get Gambling!");
     Console.ReadKey();
     Console.Clear();
@@ -34,11 +33,12 @@ while (playAgain)
         
         int diceOne = RollDice(numberOfSidesOnDice);
         int diceTwo = RollDice(numberOfSidesOnDice);
+        int diceTotal = diceOne + diceTwo;
 
-        Console.WriteLine($"You Rolled {diceOne} And {diceTwo}");
+        Console.WriteLine($"You Rolled {diceOne} And {diceTwo} ({diceTotal} Total)");
         if(numberOfSidesOnDice == 6)
         {
-            string sixSideDiceResult = SixSidedDiceWins(diceOne, diceTwo, out string outputCraps);
+            string sixSideDiceResult = SixSidedDiceWins(diceOne, diceTwo, diceTotal,  out string outputCraps);
             Console.WriteLine(sixSideDiceResult);
             if (!outputCraps.Equals(""))
             {
@@ -90,7 +90,7 @@ int NumberOfSidesOnDice(int numberOfSidesOnDice)
     Console.WriteLine();
     do
     {
-        Console.WriteLine("Enter A Number:");
+        Console.WriteLine("Enter The Number Of Sides On The Dice:");
         isValid = int.TryParse(Console.ReadLine(), out numberOfSidesOnDice) && (numberOfSidesOnDice>=6);
         if (!isValid)
         {
@@ -117,22 +117,22 @@ int RollDice(int numberOfSidesOnDice)
     return diceRollResult;
 }
 
-string SixSidedDiceWins(int dice1, int dice2, out string outputCraps)
+string SixSidedDiceWins(int diceOne, int diceTwo, int diceTotal, out string outputCraps)
 {
     string winResultString;
-    int dicetotal = dice1 + dice2;
+    
 
-    if (dice1 == 1 && dice2 == 1)
+    if (diceOne == 1 && diceTwo == 1)
     {
         winResultString = "Snake Eyes!";
     }
-    else if ((dice1 == 1 && dice2 == 2) || (dice1 == 2 && dice2 == 1))
+    else if ((diceOne == 1 && diceTwo == 2) || (diceOne == 2 && diceTwo == 1))
     {
         winResultString = "Ace Deuce!";
-    }else if (dice1 == 6 && dice2 == 6)
+    }else if (diceOne == 6 && diceTwo == 6)
     {
         winResultString = "Box Car!";
-    }else if (dicetotal == 7 || dicetotal == 11)
+    }else if (diceTotal == 7 || diceTotal == 11)
     {
         winResultString = "WIN!\n" + "WAIT WHAT??\n" + "MY SWAG!";
     }
@@ -141,7 +141,7 @@ string SixSidedDiceWins(int dice1, int dice2, out string outputCraps)
         winResultString = "Pay Up Chump!";
     }
 
-    if(dicetotal == 2 ||dicetotal == 3 || dicetotal == 12)
+    if(diceTotal == 2 ||diceTotal == 3 || diceTotal == 12)
     {
         outputCraps = "CRAPS!";
     }
